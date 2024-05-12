@@ -8,9 +8,6 @@ from firebase_admin import credentials,auth
 import os
 from dotenv import load_dotenv, dotenv_values
 
-if 'user_name' not in st.session_state:
-    st.session_state['user_name'] = ''
-
 def account():
     st.title(f'Welcome to :red[PdfBot] {st.session_state['user_name']}')
     build_login_ui()
@@ -34,15 +31,56 @@ def check_email(email_sign_up:str) -> bool:
         return True
     return False
 
+def check_username(username_sign_up:str) -> bool:
+    """
+    Checks if the user entered a valid Username while creating the account.
+    """
+    regex = re.compile(r'^[a-zA-Z0-9_.-]+$')
+
+    if re.match(regex,username_sign_up):
+        return True
+    return False
+
+def check_uniq_email(email_sign_up:str) -> bool:
+    """
+    Checks if the user entered a Uniq email while creating the account.
+    """
+    if not firebase_admin._apps:
+        load_dotenv()
+        cred = credentials.Certificate(os.getenv('CREDENTIALS'))
+        val = firebase_admin.initialize_app(cred)
+
+    all_user = auth.list_users()
+    while all_user:
+        for user in all_user.users:
+            if user.email == email_sign_up:
+                return False
+        return True
+
+def check_uniq_username(username_sign_up:str) -> bool:
+    """
+    Checks if the user entered a Uniq Username while creating the account.
+    """
+    try:
+        all_user = auth.list_users()
+        while all_user:
+            for user in all_user.users:
+                if user.uid == username_sign_up:
+                    return False
+            return True
+    except Exception as e:
+        print(e)
+
 def sign_in_with_email_and_password(user_name:str,password:str,return_secure_token=True)->None:
     """
     Authenticates the username and password.
     """
     load_dotenv()
+    st.session_state['Firebase_API_key'] = os.getenv("FIREBASE_WEB_API")
     payload = json.dumps({"email":user_name,"password":password,"return_secure_token":return_secure_token})
     rest_api_url = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword"
     response = requests.post(rest_api_url,
-                  params={"key": os.getenv("FIREBASE_WEB_API")},
+                  params={"key": st.session_state['Firebase_API_key']},
                   data=payload)
     if response:
         user_val = response.json()
@@ -55,10 +93,6 @@ def register_user(name_sign_up:str,email_sign_up:str,username_sign_up:str,passwo
     """
     Saves the information of the new user in the firebase authentication.
     """
-    if not firebase_admin._apps:
-        load_dotenv()
-        cred = credentials.Certificate(os.getenv('CREDENTIALS'))
-        val = firebase_admin.initialize_app(cred)
     user = auth.create_user(display_name=name_sign_up,email=email_sign_up,password=password_sign_up,uid=username_sign_up)
     if user.uid:
         return True
@@ -78,12 +112,14 @@ def login_page()->None:
 
             if login_submit_button == True:
                 user_val = sign_in_with_email_and_password(username,password)
-                print('----user name',user_val['displayName'])
-                if user_val:
+                if user_val is not None:
                     st.session_state['log_in'] = True
                     st.session_state['user_name'] = user_val['displayName']
                     st.success('Login SuccessFul!!')
                     st.rerun()
+                else:
+                    st.error('Please enter valid Email and Password')
+                    
 
 def sign_up_widget() -> None:
     """
@@ -96,8 +132,11 @@ def sign_up_widget() -> None:
 
         email_sign_up = st.text_input("Email *", placeholder = 'user@gmail.com')
         vadil_email = check_email(email_sign_up=email_sign_up)
+        uniq_email = check_uniq_email(email_sign_up=email_sign_up)
 
-        username_sign_up = st.text_input("Username *", placeholder = 'test@1234')
+        username_sign_up = st.text_input("Username *", placeholder = 'test1234')
+        valid_username = check_username(username_sign_up=username_sign_up)
+        uniq_username = check_uniq_username(username_sign_up=username_sign_up)
 
         password_sign_up = st.text_input("Password *", placeholder = 'Create a strong password', type = 'password')
 
@@ -109,8 +148,12 @@ def sign_up_widget() -> None:
                 st.error("Please enter valid name")
             elif vadil_email == False:
                 st.error("Please enter valid email address")
+            elif uniq_email == False:
+                st.error("Email already exists!")
+            elif uniq_username == False:
+                st.error(f'Sorry, username {username_sign_up} already exists!')
 
-            if valid_name == True and vadil_email == True:
+            if valid_name == True and vadil_email == True and uniq_email == True and uniq_username == True:
                 register_user(name_sign_up,email_sign_up,username_sign_up,password_sign_up)
                 st.success("Registration Successful!")
 
@@ -160,7 +203,7 @@ def navbar() -> None:
             orientation="horizontal",
             styles={
                 "container": {"padding": "0!important", "background-color": "#fafafa"},
-                "icon": {"color": "orange", "font-size": "18px"}, 
+                "icon": {"color": "red", "font-size": "18px"}, 
                 "nav-link": {"font-size": "18px", "text-align": "left", "margin":"0px", "--hover-color": "#eee"},
                 "nav-link-selected": {"background-color": "black"},
             }
@@ -181,7 +224,7 @@ def navbar1() -> None:
             orientation="horizontal",
             styles={
                 "container": {"padding": "0!important", "background-color": "#fafafa"},
-                "icon": {"color": "orange", "font-size": "18px"}, 
+                "icon": {"color": "red", "font-size": "18px"}, 
                 "nav-link": {"font-size": "18px", "text-align": "left", "margin":"0px", "--hover-color": "#eee"},
                 "nav-link-selected": {"background-color": "black"},
             }
