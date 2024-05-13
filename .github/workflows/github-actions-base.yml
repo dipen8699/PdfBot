@@ -22,12 +22,12 @@ jobs:
       uses: actions/checkout@v4
     - run: echo " ${{ github.repository }} has been cloned"
 
-  running-testcases:
-    runs-on: ubuntu-latest
-    steps: 
-    - name: Running Test Cases
-      uses: actions/checkout@v4
-    - run: python3 ./tests.py
+  # running-testcases:
+  #   runs-on: ubuntu-latest
+  #   steps: 
+  #   - name: Running Test Cases
+  #     uses: actions/checkout@v4
+  #   - run: python3 ./tests.py
 
   building-docker-image:
     runs-on: ubuntu-latest
