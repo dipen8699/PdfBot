@@ -8,6 +8,9 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     
     steps:
     - name: Checkout code
@@ -50,6 +53,7 @@ jobs:
     # Tag the Docker image with Azure Container Registry URL
     - name: Tag Docker image for ACR
       run: docker tag dk2210/pdfbot-docker-img1:latest ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}/dk2210/pdfbot-docker-img1:latest
+
 
     # Push the Docker image to Azure Container Registry
     - name: Push Docker image to ACR
