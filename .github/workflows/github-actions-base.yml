@@ -13,6 +13,9 @@ on:
 jobs:
   initial-commit-check:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps: 
     - run: echo "Running tests..."
     - run: echo "Current Branch - ${{ github.ref }}"
@@ -21,6 +24,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
     - run: echo " ${{ github.repository }} has been cloned"
+
 
   # running-testcases:
   #   runs-on: ubuntu-latest
