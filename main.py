@@ -1,6 +1,8 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
 from modules import account,home,chat,document
+import os
+from dotenv import load_dotenv, dotenv_values
 
 
 st.set_page_config(page_title="PdfBot",page_icon=":material/picture_as_pdf:")
@@ -25,6 +27,10 @@ class PdfBot:
         })
 
     def run():
+        load_dotenv()
+        st.session_state['OPEN_AI_KEY'] = os.getenv("OPEN_AI_KEY")
+        st.session_state["PINECONE_API_KEY"] = os.getenv("PINECONE_API_KEY")
+        st.session_state['doc_names'] = []
         # app = st.sidebar(
         with st.sidebar:        
             app = option_menu(

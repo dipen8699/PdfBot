@@ -84,7 +84,6 @@ def sign_in_with_email_and_password(user_name:str,password:str,return_secure_tok
                   data=payload)
     if response:
         user_val = response.json()
-        print('----user values',user_val)
         return user_val
     return None
 
