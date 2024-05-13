@@ -20,6 +20,7 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CLIENT_ID }},${{ secrets.AZURE_CLIENT_SECRET }},${{ secrets.AZURE_TENANT_ID }}
 
+
     # Pull the Docker image from Docker Hub
     - name: Pull Docker image
       run: docker pull dk2210/pdfbot-docker-img1:latest
