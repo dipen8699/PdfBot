@@ -13,7 +13,8 @@ from langchain_openai import OpenAIEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 def document():
-    st.title(f'Welcome to :red[PdfBot] {st.session_state['user_name']}')
+    # st.title(f'Welcome to :red[PdfBot] {st.session_state['user_name']}')
+    st.title('Welcome to PdfBot ' + st.session_state['user_name'])
     build_doc_ui()
 
 def upload_doc() -> None:

@@ -9,7 +9,8 @@ import os
 from dotenv import load_dotenv, dotenv_values
 
 def account():
-    st.title(f'Welcome to :red[PdfBot] {st.session_state['user_name']}')
+    # st.title(f'Welcome to :red[PdfBot] {st.session_state['user_name']}')
+    st.title('Welcome to PdfBot ' + st.session_state['user_name'])
     build_login_ui()
 
 def check_name(name_sign_up:str) -> bool:
