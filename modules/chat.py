@@ -4,8 +4,8 @@ from .account import account
 def chat_screen():
     # Check if the user is logged in
     if 'user_name' not in st.session_state or not st.session_state['user_name']:
-        st.warning("Please log in to use the chat feature.")
-        st.button("Go to Login", on_click=login_page)
+        st.error("Please log in/ Sign Up to use the chat feature.")
+        # st.button("Go to Login", on_click=login_page)
         return
     
     st.title(f'Chat with :red[PdfBot] {st.session_state["user_name"]}')
@@ -26,5 +26,5 @@ def chat_screen():
         with st.chat_message("user"):
             st.markdown(prompt)
 
-def login_page():
-    account()
+# def login_page():
+#     account()
