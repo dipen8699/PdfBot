@@ -139,7 +139,7 @@ def showDocs() -> None:
     if options is not None:
         if st.button("Delete"):    
             name = name+"-"+st.session_state['user_name']
-            print('name------>')
+            print('name------>hdjd')
             index.delete(namespace=name, delete_all=True)
             st.success("Delete Your Document Successfully")
     
