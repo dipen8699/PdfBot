@@ -4,9 +4,9 @@ on:
   push:
     branches:
       - v1.0
-    pull_request:
+  pull_request:
     branches:
-      - newwork
+      - v1.0
   workflow_dispatch:
 
 jobs:
