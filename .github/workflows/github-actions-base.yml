@@ -71,5 +71,5 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: yogesh336/pdfbot-docker-img1:${{ github.sha }}
+          tags: dk2210/pdfbot-docker-img1:${{ github.sha }}
           labels: ${{ steps.meta.outputs.labels }}
