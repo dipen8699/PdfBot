@@ -23,15 +23,15 @@ jobs:
 
     # Pull the Docker image from Docker Hub
     - name: Pull Docker image
-      run: docker pull dk2210/pdfbot-docker-img1:latest
+      run: docker pull yogesh336/pdfbot-docker-img1:latest
 
     # Tag the Docker image with Azure Container Registry URL
     - name: Tag Docker image for ACR
-      run: docker tag dk2210/pdfbot-docker-img1:latest ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}/pdfbot-docker-img1:latest
+      run: docker tag yogesh336/pdfbot-docker-img1:latest ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}/yogesh336/pdfbot-docker-img1:latest
 
     # Push the Docker image to Azure Container Registry
     - name: Push Docker image to ACR
-      run: docker push ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}/pdfbot-docker-img1:latest
+      run: docker push ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}/yogesh336/pdfbot-docker-img1:latest
 
     # Additional steps for deploying Docker image to Azure service
     # ...
