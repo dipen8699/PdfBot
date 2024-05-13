@@ -1,0 +1,8 @@
+streamlit
+firebase_admin
+pinecone
+langchain
+streamlit_option_menu
+dotenv
+PyPDF2
+langchain_openai
