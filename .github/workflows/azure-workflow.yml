@@ -34,6 +34,16 @@ jobs:
         ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
 
 
+    # - name: Login to Azure
+    #   uses: azure/login@v1
+    #   with:
+    #     creds: |
+    #       {
+    #         "clientId": "${{ secrets.AZURE_CLIENT_ID }}",
+    #         "clientSecret": "${{ secrets.AZURE_CLIENT_SECRET }}",
+    #         "subscriptionId": "${{ secrets.AZURE_SUBSCRIPTION_ID }}",
+    #         "tenantId": "${{ secrets.AZURE_TENANT_ID }}"
+    #       }
     - name: Login to Azure
       uses: azure/login@v1
       with:
@@ -44,6 +54,19 @@ jobs:
             "subscriptionId": "${{ secrets.AZURE_SUBSCRIPTION_ID }}",
             "tenantId": "${{ secrets.AZURE_TENANT_ID }}"
           }
+
+    - name: Login to Container Registry
+      uses: docker/login-action@v2  # Use official Docker action
+      with:
+        registry: ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}
+        username: ${{ secrets.AZURE_REGISTRY_USERNAME }} 
+        password: ${{ secrets.AZURE_REGISTRY_PASSWORD }} 
+
+    - name: Build and push Docker image to ACR
+      run: |
+        docker build -t pdfbot-docker-img1 .
+        docker tag pdfbot-docker-img1 ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}/dk2210/pdfbot-docker-img1:latest
+        docker push ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}/dk2210/pdfbot-docker-img1:latest
 
 # 
     # Pull the Docker image from Docker Hub
