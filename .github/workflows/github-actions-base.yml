@@ -1,5 +1,15 @@
 name: github-actions
-on: [push]
+
+on:
+  push:
+    branches:
+      - v1.0
+  pull_request:
+    branches:
+      - v1.0
+  workflow_dispatch:
+
+
 jobs:
   initial-commit-check:
     runs-on: ubuntu-latest

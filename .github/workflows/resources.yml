@@ -1,30 +1,27 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: my-app-deployment
-spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: my-app
-  template:
-    metadata:
-      labels:
-        app: my-app
-    spec:
-      containers:
-        - name: my-app-container
-          image: pdfbot/base-dev-repo:latest
-          ports:
-            - containerPort: 8080
-          resources:
-            limits:
-              cpu: "1"
-              memory: "1Gi"
-            requests:
-              cpu: "0.5"
-              memory: "512Mi"
-
-
-
-              # try
+on:
+      # apiVersion: apps/v1
+      # kind: Deployment
+      # metadata:
+      #   name: my-app-deployment
+      # spec:
+      #   replicas: 3
+      #   selector:
+      #     matchLabels:
+      #       app: my-app
+      #   template:
+      #     metadata:
+      #       labels:
+      #         app: my-app
+      #     spec:
+      #       containers:
+      #         - name: my-app-container
+      #           image: pdfbot/base-dev-repo:latest
+      #           ports:
+      #             - containerPort: 8080
+      #           resources:
+      #             limits:
+      #               cpu: "1"
+      #               memory: "1Gi"
+      #             requests:
+      #               cpu: "0.5"
+      #               memory: "512Mi"
