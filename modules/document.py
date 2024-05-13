@@ -126,22 +126,22 @@ def getDocList():
         if get_name[1] == st.session_state['user_name']:
             st.session_state['doc_names'].append(name.split('-')[0])
 
-# def showDocs() -> None:
-#     pc,index = pinecone_instance()
-#     st.subheader("Your Uploaded Documents")
-#     i=1
-#     for name in st.session_state['doc_names']:
-#         st.write(f"{i}."+" "+f"{name}")
-#         i+=1
-#     st.divider()
-#     st.subheader("Select Document to delete from the :red[PdfBot]")
-#     options = st.selectbox("Select Document to Delete from :red[PdfBot]",options=st.session_state['doc_names'],index=None)
-#     if options is not None:
-#         if st.button("Delete"):    
-#             name = name+"-"+st.session_state['user_name']
-#             print('name------>')
-#             index.delete(namespace=name, delete_all=True)
-#             st.success("Delete Your Document Successfully")
+def showDocs() -> None:
+    pc,index = pinecone_instance()
+    st.subheader("Your Uploaded Documents")
+    i=1
+    for name in st.session_state['doc_names']:
+        st.write(f"{i}."+" "+f"{name}")
+        i+=1
+    st.divider()
+    st.subheader("Select Document to delete from the :red[PdfBot]")
+    options = st.selectbox("Select Document to Delete from :red[PdfBot]",options=st.session_state['doc_names'],index=None)
+    if options is not None:
+        if st.button("Delete"):    
+            name = name+"-"+st.session_state['user_name']
+            print('name------>')
+            index.delete(namespace=name, delete_all=True)
+            st.success("Delete Your Document Successfully")
     
 
 def doc_navbar() -> None:
@@ -176,4 +176,4 @@ def build_doc_ui():
             upload_doc()
         if selected == "Documents":
             getDocList()
-            # showDocs()
+            showDocs()
