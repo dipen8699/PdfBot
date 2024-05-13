@@ -1,0 +1,61 @@
+name: github-actions
+on: [push]
+jobs:
+  initial-commit-check:
+    runs-on: ubuntu-latest
+    steps: 
+    - run: echo "Running tests..."
+    - run: echo "Current Branch - ${{ github.ref }}"
+    - run: echo "Current Commit - ${{ github.sha }}" 
+    - run: echo "Current Commit Message - ${{ github.event.head_commit.message }}"
+    - name: Checkout
+      uses: actions/checkout@v4
+    - run: echo " ${{ github.repository }} has been cloned"
+
+  running-testcases:
+    runs-on: ubuntu-latest
+    steps: 
+    - name: Running Test Cases
+      uses: actions/checkout@v4
+    - run: python3 ./tests.py
+
+  building-docker-image:
+    runs-on: ubuntu-latest
+    steps: 
+    - name: Building Docker Image
+      uses: actions/checkout@v4
+    - run: docker build -t github-actions .
+    - run: docker images
+    - run: docker run -d -p 5000:5000 github-actions
+    - run: docker ps -a
+    - run: docker stop $(docker ps -a -q)
+    - run: docker rm $(docker ps -a -q)
+    - run: docker rmi $(docker images -q)
+
+  push_to_registry:
+    name: Push Docker image to Docker Hub
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+      
+      - name: Log in to Docker Hub
+        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
+          images: pdfbot/base-dev-repo
+      
+      - name: Build and push Docker image
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: pdfbot/base-dev-repo:${{ github.sha }}
+          labels: ${{ steps.meta.outputs.labels }}
