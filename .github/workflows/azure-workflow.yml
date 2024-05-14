@@ -81,6 +81,8 @@ jobs:
     - name: Push Docker image to ACR
       run: docker push ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}/dk2210/pdfbot-docker-img1:latest
 
+    - name: Pull Docker image from ACR
+      run: docker pull ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}/dk2210/pdfbot-docker-img1:latest
     
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
