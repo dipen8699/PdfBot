@@ -87,6 +87,6 @@ jobs:
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
-        app-name: pdfbottService
+        app-name: pdfbotWebApp
         images: ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}/dk2210/pdfbot-docker-img1:latest
 
