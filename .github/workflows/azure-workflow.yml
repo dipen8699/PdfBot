@@ -147,5 +147,5 @@ jobs:
         images: ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}/dk2210/pdfbot-docker-img1:latest
 
     # Display App Service URL
-    - name: Display App Service URL
-      run: az webapp show --name pdfbottService --query "defaultHostName" -o tsv
+    # - name: Display App Service URL
+    #   run: az webapp show --name pdfbottService --query "defaultHostName" -o tsv
