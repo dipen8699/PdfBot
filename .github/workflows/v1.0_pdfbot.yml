@@ -30,7 +30,7 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: pdfbottest.azurecr.io/"${{ secrets.AzureAppService_ContainerUsername_ac226941ca0a4e92b5210890e9c1ff0f }}/pdfbottest:${{ github.sha }}"
+        tags: pdfbottest.azurecr.io/pdfbottest:${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
