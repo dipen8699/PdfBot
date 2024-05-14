@@ -19,7 +19,7 @@ def document():
 
 def upload_doc() -> None:
     docs = st.file_uploader("Upload documents", accept_multiple_files=True)
-    if st.button("Upload"):
+    if st.button("Upload") and Docs is not None:
         with st.status("Uploading data...", expanded=True) as status:
             for doc in docs:
                 st.write("Fetching data...")
@@ -35,6 +35,8 @@ def upload_doc() -> None:
                 store = storeToVectorDB(chunks, embeddings, file_name)
                 if store == "Success":
                     status.update(label="Upload complete!", state="complete", expanded=False)
+    else:
+        st.error("Please select valid document")
 
 def uploadtoPineCone(documents):
     for doc in documents:
