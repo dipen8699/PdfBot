@@ -30,7 +30,7 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: pdfbottest.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_3ca5e8bbc88749a49870286908be00e0 }}/dk2210/pdfbot-docker-img1:${{ github.sha }}
+        tags: pdfbottest.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_3ca5e8bbc88749a49870286908be00e0 }}/dk2210/pdfbot-docker-img1:latest
         file: ./Dockerfile
 
   deploy:
@@ -48,4 +48,4 @@ jobs:
         app-name: 'pdfbottservice'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_7dd4c4ac066f48ce9ac354897766ac34 }}
-        images: 'pdfbottest.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_3ca5e8bbc88749a49870286908be00e0 }}/dk2210/pdfbot-docker-img1:${{ github.sha }}'
+        images: 'pdfbottest.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_3ca5e8bbc88749a49870286908be00e0 }}/dk2210/pdfbot-docker-img1:latest'
