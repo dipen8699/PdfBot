@@ -77,7 +77,6 @@ jobs:
     - name: Tag Docker image for ACR
       run: docker tag dk2210/pdfbot-docker-img1:latest ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}/dk2210/pdfbot-docker-img1:latest
 
-
     # Push the Docker image to Azure Container Registry
     - name: Push Docker image to ACR
       run: docker push ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}/dk2210/pdfbot-docker-img1:latest
@@ -88,7 +87,7 @@ jobs:
       with:
         app-name: pdfbottService
         images: ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}/dk2210/pdfbot-docker-img1:latest
-        
- 
+
+#  test
 
 # 
