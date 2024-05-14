@@ -128,7 +128,7 @@ def getDocList():
         if get_name[1] == st.session_state['user_name']:
             st.session_state['doc_names'].append(name.split('-')[0])
 
-def showDocs() -> None:
+def showDocs():
     pc = Pinecone(api_key=st.session_state['PINECONE_API_KEY'])
     index = pc.Index("pdfbot")
     st.subheader("Your Uploaded Documents")
@@ -138,14 +138,19 @@ def showDocs() -> None:
         i+=1
     st.divider()
     st.subheader("Select Document to delete from the :red[PdfBot]")
-    options = st.selectbox("Select Document to Delete from :red[PdfBot]",options=st.session_state['doc_names'],index=None)
-    if options is not None:
-        if st.button("Delete"):    
-            name = name+"-"+st.session_state['user_name']
-            print('name------>')
-            index.delete(namespace=name, delete_all=True)
-            st.success("Delete Your Document Successfully")
-    
+    try:
+        options = st.selectbox("Select Document to Delete from :red[PdfBot]",options=st.session_state['doc_names'])
+        print('---options :',options)
+        if options is not None:
+            if st.button("Delete"):    
+                name = name+"-"+st.session_state['user_name']
+                print('name------>')
+                index.delete(namespace=name, delete_all=True)
+                st.success("Delete Your Document Successfully")
+                st.rerun()
+            return True
+    except Exception as e:
+        return e
 
 def doc_navbar() -> None:
     """
