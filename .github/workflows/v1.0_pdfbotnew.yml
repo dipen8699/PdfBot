@@ -6,7 +6,7 @@ name: Build and deploy container app to Azure Web App - pdfbotnew
 on:
   push:
     branches:
-      - v1.0
+      - dev-test
   workflow_dispatch:
 
 jobs:
