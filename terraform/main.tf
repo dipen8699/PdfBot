@@ -47,10 +47,4 @@ resource "azurerm_app_service" "appService" {
     http2_enabled = true
   }
 
-app_settings = {
-    "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
-    "DOCKER_REGISTRY_SERVER_URL"          = "https://pdfbottest.azurecr.io"
-    "WEBSITES_PORT"                       = "8501"
-    
-  }
 }
