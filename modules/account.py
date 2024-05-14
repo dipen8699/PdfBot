@@ -49,7 +49,7 @@ def check_uniq_email(email_sign_up:str) -> bool:
     """
     if not firebase_admin._apps:
         load_dotenv()
-        cred = credentials.Certificate(os.getenv('CREDENTIALS'))
+        cred = credentials.Certificate("")
         val = firebase_admin.initialize_app(cred)
 
     all_user = auth.list_users()

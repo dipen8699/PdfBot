@@ -88,9 +88,10 @@ def convertUploadedFileToEmbeddings(file):
     return embeddings
 
 def storeToVectorDB(data, embeddings, file_name):
-    pinecone_instance,index = pinecone_instance()
-    if 'pdfbot' not in pinecone_instance.list_indexes().names():
-        pinecone_instance.create_index(
+    pc = Pinecone(api_key=st.session_state['PINECONE_API_KEY'])
+    index = pc.Index("pdfbot")
+    if 'pdfbot' not in pc.list_indexes().names():
+        pc.create_index(
             name='pdfbot', 
             dimension=1536, 
             metric='euclidean',
@@ -113,13 +114,14 @@ def converListToDict(data, embeddings):
 
     return dictData
 
-def pinecone_instance():
+def pinecone_instance(data):
     pc = Pinecone(api_key=st.session_state['PINECONE_API_KEY'])
     index = pc.Index("pdfbot")
     return pc,index
 
 def getDocList():
-    pc,index = pinecone_instance()
+    pc = Pinecone(api_key=st.session_state['PINECONE_API_KEY'])
+    index = pc.Index("pdfbot")
     doc_names = index.describe_index_stats()
     for name in doc_names["namespaces"].keys():
         get_name = name.split('-')
@@ -127,7 +129,8 @@ def getDocList():
             st.session_state['doc_names'].append(name.split('-')[0])
 
 def showDocs() -> None:
-    pc,index = pinecone_instance()
+    pc = Pinecone(api_key=st.session_state['PINECONE_API_KEY'])
+    index = pc.Index("pdfbot")
     st.subheader("Your Uploaded Documents")
     i=1
     for name in st.session_state['doc_names']:
