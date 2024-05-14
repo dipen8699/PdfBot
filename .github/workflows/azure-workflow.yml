@@ -90,6 +90,3 @@ jobs:
         app-name: pdfbottService
         images: ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}/dk2210/pdfbot-docker-img1:latest
 
-#  test
-
-# 

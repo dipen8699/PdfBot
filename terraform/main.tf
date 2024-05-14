@@ -28,8 +28,8 @@ resource "azurerm_app_service_plan" "appPlan" {
   resource_group_name = azurerm_resource_group.pdfbot.name
 
   sku {
-    tier = "Basic"
-    size = "B1"
+    tier = "Standard"
+    size = "S1"
   }
 
   kind     = "Linux"
@@ -45,5 +45,12 @@ resource "azurerm_app_service" "appService" {
   site_config {
     always_on     = false
     http2_enabled = true
+  }
+
+app_settings = {
+    "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
+    "DOCKER_REGISTRY_SERVER_URL"          = "https://pdfbottest.azurecr.io"
+    "WEBSITES_PORT"                       = "8501"
+    
   }
 }
