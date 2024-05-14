@@ -9,7 +9,9 @@ import os
 from dotenv import load_dotenv, dotenv_values
 
 def account():
-    st.title(f'Welcome to :red[PdfBot] {st.session_state['user_name']}')
+    # st.title(f'Welcome to :red[PdfBot] {st.session_state['user_name']}')
+    st.title('Welcome to PdfBot ' + st.session_state['user_name'])
+    print('---hiii')
     build_login_ui()
 
 def check_name(name_sign_up:str) -> bool:
@@ -47,7 +49,7 @@ def check_uniq_email(email_sign_up:str) -> bool:
     """
     if not firebase_admin._apps:
         load_dotenv()
-        cred = credentials.Certificate(os.getenv('CREDENTIALS'))
+        cred = credentials.Certificate(os.getenv("CREDENTIALS"))
         val = firebase_admin.initialize_app(cred)
 
     all_user = auth.list_users()

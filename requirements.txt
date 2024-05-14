@@ -1,8 +1,8 @@
 streamlit
 firebase_admin
-pinecone
+pinecone-client
 langchain
 streamlit_option_menu
-dotenv
+python-dotenv
 PyPDF2
 langchain_openai
