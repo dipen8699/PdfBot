@@ -82,7 +82,13 @@ jobs:
     - name: Push Docker image to ACR
       run: docker push ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}/dk2210/pdfbot-docker-img1:latest
 
-    # Additional steps for deploying Docker image to Azure service
+    
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: pdfbottService
+        images: ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}/dk2210/pdfbot-docker-img1:latest
+        
  
 
 # 
