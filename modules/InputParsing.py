@@ -3,7 +3,6 @@ import pinecone
 import re
 from langchain.embeddings import OpenAIEmbeddings
 import streamlit as st
-# from langchain_openai import ChatOpenAI
 from langchain_community.chat_models import ChatOpenAI
 from langchain.chains.conversation.memory import ConversationSummaryBufferMemory
 from langchain.chains import ConversationChain
