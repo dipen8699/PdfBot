@@ -8,10 +8,8 @@ from modules import InputParsing
 # from InputParsing import ChatClass
 
 def select_document():
-        # Check if the user is logged in
     if 'user_name' not in st.session_state or not st.session_state['user_name']:
         st.error("Please log in/ Sign Up to use the chat feature.")
-        # st.button("Go to Login", on_click=login_page)
         return
     get_docs()
     selected_doc = st.selectbox("Select a document to chat about",options=st.session_state['doc_names'])
