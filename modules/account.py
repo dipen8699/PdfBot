@@ -11,7 +11,6 @@ from dotenv import load_dotenv, dotenv_values
 def account():
     # st.title(f'Welcome to :red[PdfBot] {st.session_state['user_name']}')
     st.title('Welcome to PdfBot ' + st.session_state['user_name'])
-    print('---hiii')
     build_login_ui()
 
 def check_name(name_sign_up:str) -> bool:
@@ -105,7 +104,7 @@ def login_page()->None:
         Creates the login widget, checks and authenticates the users.
         """
         with st.form("Login form"):
-            username = st.text_input("Username", placeholder = 'Your unique username')
+            username = st.text_input("Email", placeholder = 'Your email')
             password = st.text_input("Password", placeholder = 'Your password', type = 'password')
 
             st.markdown("###")

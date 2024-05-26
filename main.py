@@ -13,6 +13,12 @@ if 'log_out' not in st.session_state:
     st.session_state['log_out'] = False
 if 'user_name' not in st.session_state:
     st.session_state['user_name'] = ''
+if 'doc_names' not in st.session_state:
+    st.session_state['doc_names'] = []
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+if "select_doc" not in st.session_state:
+    st.session_state["select_doc"] = None
 
 class PdfBot:
 
@@ -53,7 +59,7 @@ class PdfBot:
         if app == "Home":
             home.home()
         elif app == "Chat":
-            chat.chat_screen()   
+            chat.start_chat()   
         elif app == "My Documents":
             document.document()        
         elif app == 'My Account':
