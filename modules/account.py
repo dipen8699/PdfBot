@@ -22,7 +22,7 @@ if not firebase_admin._apps:
 reset_codes = {}
 
 def generate_reset_code(email):
-    code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
+    code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
     expiry_time = datetime.now() + timedelta(minutes=10)  
     reset_codes[email] = {'code': code, 'expiry': expiry_time}
     return code
@@ -144,6 +144,8 @@ def logout_widget() -> None:
         if logout_btn:
             st.session_state['log_out'] = True
             st.session_state['log_in'] = False
+            st.session_state['user_name'] = ''
+            st.session_state['user_email'] = ""
             st.rerun()
 
 def forgot_password() -> None:

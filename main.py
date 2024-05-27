@@ -23,7 +23,7 @@ if "select_doc" not in st.session_state:
 
 # Initialize Firebase
 if not firebase_admin._apps:
-    cred = credentials.Certificate('modules/service_acnt.json')  # Ensure this path is correct
+    cred = credentials.Certificate('modules/service_acnt.json')  
     firebase_admin.initialize_app(cred)
 
 class PdfBot:
