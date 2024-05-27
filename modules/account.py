@@ -13,14 +13,11 @@ from datetime import datetime, timedelta
 import smtplib
 from email.mime.text import MIMEText
 
-
 load_dotenv()
-
 
 if not firebase_admin._apps:
     cred = credentials.Certificate(os.getenv("CREDENTIALS"))
     firebase_admin.initialize_app(cred)
-
 
 reset_codes = {}
 
@@ -40,7 +37,6 @@ def send_email(recipient, subject, body):
     msg["To"] = recipient
 
     try:
-
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server: 
             server.login(sender, password)
             server.sendmail(sender, recipient, msg.as_string())
@@ -53,7 +49,7 @@ def send_reset_code_email(email):
     send_email(email, "Your Password Reset Code", f"Your reset code is: {code}")
 
 def account():
-    st.title('Welcome to PdfBot ' + st.session_state['user_name'])
+    st.title('Welcome to PdfBot ' + st.session_state.get('user_name', ''))
     build_login_ui()
 
 def check_name(name_sign_up: str) -> bool:
@@ -76,7 +72,7 @@ def check_uniq_username(username_sign_up: str) -> bool:
     all_users = auth.list_users().users
     return not any(user.uid == username_sign_up for user in all_users)
 
-def sign_in_with_email_and_password(user_name: str, password: str, return_secure_token=True) -> None:
+def sign_in_with_email_and_password(user_name: str, password: str, return_secure_token=True) -> dict:
     st.session_state['Firebase_API_key'] = os.getenv("FIREBASE_WEB_API")
     payload = json.dumps({"email": user_name, "password": password, "return_secure_token": return_secure_token})
     rest_api_url = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword"
@@ -102,6 +98,7 @@ def login_page() -> None:
             if user_val is not None:
                 st.session_state['log_in'] = True
                 st.session_state['user_name'] = user_val['displayName']
+                st.session_state['user_email'] = username
                 st.success('Login Successful!!')
                 st.rerun()
             else:
@@ -191,6 +188,28 @@ def reset_password() -> None:
             else:
                 st.error("No reset code found for this email.")
 
+def change_password() -> None:
+    with st.form("Change Password Form"):
+        current_password = st.text_input("Current Password", type='password', placeholder='Enter your current password')
+        new_password = st.text_input("New Password", type='password', placeholder='Enter your new password')
+        
+        st.markdown("###")
+        change_password_submit_button = st.form_submit_button(label='Change Password')
+
+        if change_password_submit_button:
+            user_email = st.session_state['user_email']
+            user_val = sign_in_with_email_and_password(user_email, current_password)
+            
+            if user_val is not None:
+                try:
+                    user = auth.get_user_by_email(user_email)
+                    auth.update_user(user.uid, password=new_password)
+                    st.success("Password has been changed successfully.")
+                except firebase_admin.exceptions.FirebaseError as e:
+                    st.error(f"Error updating password: {e}")
+            else:
+                st.error("Current password is incorrect.")
+
 def navbar() -> None:
     main_navbar = st.empty()
     with main_navbar:
@@ -228,7 +247,7 @@ def navbar1() -> None:
         return selected
 
 def build_login_ui():
-    if st.session_state['log_in'] == False:
+    if st.session_state.get('log_in', False) == False:
         selected = navbar()
 
         if selected == 'Login':
@@ -250,3 +269,6 @@ def build_login_ui():
 
         if selected == 'Profile':
             logout_widget()
+
+        if selected == 'Change Password':
+            change_password()
