@@ -21,9 +21,9 @@ if "messages" not in st.session_state:
 if "select_doc" not in st.session_state:
     st.session_state["select_doc"] = None
 
-# Initialize Firebase
+
 if not firebase_admin._apps:
-    cred = credentials.Certificate('modules/service_acnt.json')  # Ensure this path is correct
+    cred = credentials.Certificate('modules/service_acnt.json')  
     firebase_admin.initialize_app(cred)
 
 class PdfBot:
