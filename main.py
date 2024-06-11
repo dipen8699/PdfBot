@@ -70,4 +70,3 @@ class PdfBot:
             account.account()
 
     run()
-
