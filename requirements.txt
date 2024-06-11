@@ -7,6 +7,7 @@ python-dotenv
 PyPDF2
 langchain_openai
 langchain-community
-sklearn
 translate
 langdetect
+
+# requirement
