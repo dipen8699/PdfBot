@@ -95,7 +95,3 @@ class ChatClass:
         relevantSources = self.findRelevantSources(baseQuestion, documentNameSpace)
         answer = self.generateAnswer(relevantSources, baseQuestion)
         return answer
-    
-    # input parsing
-
-
