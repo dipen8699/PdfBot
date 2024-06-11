@@ -9,3 +9,5 @@ langchain_openai
 langchain-community
 translate
 langdetect
+
+# requirement
